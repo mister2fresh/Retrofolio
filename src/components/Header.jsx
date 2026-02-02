@@ -74,7 +74,6 @@ export default function Header() {
             );
           })}
 
-          {/* Resume link — only rendered when configured */}
           {links.resume && (
             <a
               href={links.resume}
