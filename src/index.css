@@ -1,0 +1,296 @@
+@import "tailwindcss";
+
+/* ----------------------------- */
+/*  CRT THEME (Dark Only)        */
+/* ----------------------------- */
+
+:root {
+  --amber: #ffb86c;
+  --tron: #00eaff;
+
+  --crt-bg: linear-gradient(to bottom, #1a0f0a, #000000);
+  --crt-text: var(--amber);
+  --crt-glow: rgba(255, 184, 108, 0.6);
+  --crt-scanline: rgba(255, 184, 108, 0.06);
+  --crt-highlight: rgba(255, 184, 108, 0.15);
+}
+
+/* ----------------------------- */
+/*  Base Layout                  */
+/* ----------------------------- */
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+* { cursor: cell !important; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--crt-text);
+  text-shadow: 0 0 4px var(--crt-glow);
+  background: var(--crt-bg);
+  overflow-x: hidden;
+}
+
+/* ----------------------------- */
+/*  Headings                     */
+/* ----------------------------- */
+
+h1, h2, h3 {
+  color: var(--crt-text);
+  text-shadow: 0 0 3px var(--crt-glow);
+}
+
+/* ----------------------------- */
+/*  Custom Utilities             */
+/* ----------------------------- */
+
+@layer utilities {
+
+  .text-amber { color: var(--amber); }
+  .glow-amber { text-shadow: 0 0 6px var(--crt-glow); }
+
+  /* CRT Flicker */
+  @keyframes crt-flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+    60% { opacity: 0.8; }
+    70% { opacity: 0.5; }
+  }
+  .hover-flicker:hover {
+    animation: crt-flicker 0.12s steps(2, end) infinite;
+  }
+
+  /* Static Scanlines */
+  .scanlines {
+    position: relative;
+  }
+  .scanlines::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      var(--crt-scanline) 0px,
+      var(--crt-scanline) 2px,
+      transparent 2px,
+      transparent 4px
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Animated Scanlines */
+  @keyframes scanline-move {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+  .scanlines-animated::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      var(--crt-highlight) 50%,
+      transparent 100%
+    );
+    animation: scanline-move 4s linear infinite;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* VHS Distortion */
+  @keyframes vhs-distort {
+    0% { transform: translateX(0); opacity: 1; }
+    20% { transform: translateX(-2px); opacity: 0.9; }
+    40% { transform: translateX(2px); opacity: 0.85; }
+    60% { transform: translateX(-1px); opacity: 0.92; }
+    80% { transform: translateX(1px); opacity: 0.88; }
+    100% { transform: translateX(0); opacity: 1; }
+  }
+
+  /* Page-level scanline overlay — covers the full scroll height
+     as a single continuous layer. Applied once on #root so there
+     is no per-section restart seam. */
+  #root {
+    position: relative;
+  }
+  #root::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      var(--crt-scanline) 0px,
+      var(--crt-scanline) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    animation: vhs-distort 0.25s infinite;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* Alternating section tints — gives the eye a rhythm as it
+     scrolls without fighting the dark theme. */
+  .section-tint-a {
+    background-color: #0d0a08;
+  }
+  .section-tint-b {
+    background-color: #0a0a0b;
+  }
+
+  /* Neon Outline */
+  .neon-tron {
+    text-shadow:
+      0 0 4px var(--tron),
+      0 0 8px var(--tron),
+      0 0 12px var(--tron),
+      0 0 16px var(--tron);
+  }
+
+  /* Phosphor Bloom */
+  .phosphor-bloom {
+    filter: drop-shadow(0 0 6px var(--crt-glow))
+            drop-shadow(0 0 12px var(--crt-glow))
+            drop-shadow(0 0 18px var(--crt-glow));
+  }
+
+  /* CRT Curved Screen */
+  .crt-curved {
+    border-radius: 20px;
+    overflow: hidden;
+    transform: perspective(800px) rotateX(2deg);
+    box-shadow:
+      inset 0 0 40px var(--crt-glow),
+      0 0 40px var(--crt-glow);
+  }
+
+  /* Section Header */
+  .section-header-block {
+    padding-top: 3rem;
+  }
+  .dual-header {
+    color: var(--crt-text);
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+  }
+  .dual-divider {
+    color: var(--tron);
+    font-size: 0.9rem;
+    user-select: none;
+    margin-bottom: 1rem;
+  }
+  .dual-prompt {
+    color: var(--tron);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    text-align: left;
+  }
+
+  /* Accent Hover */
+  .hover-accent:hover {
+    color: var(--tron);
+    transition: color 0.2s ease-out;
+  }
+  .hover-border-accent:hover {
+    border-color: var(--tron);
+    transition: border-color 0.2s ease-out;
+  }
+
+  /* Cursor Blink */
+  @keyframes blink-cursor {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+  .cursor-cyan {
+    display: inline-block;
+    width: 0.6rem;
+    color: var(--tron);
+    animation: blink-cursor 0.8s steps(2, start) infinite;
+  }
+
+  /* Floating Icons */
+  @keyframes float-updown {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0); }
+  }
+  .float-icon {
+    animation: float-updown 2.8s ease-in-out infinite;
+  }
+
+  /* Remove CRT Effects */
+  .no-crt {
+    filter: none !important;
+    mix-blend-mode: normal !important;
+  }
+
+  /* Carousel Scroll */
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-scroll {
+    animation: scroll 18s linear infinite;
+  }
+
+  /* Dual-tone Glow Pulse */
+  @keyframes dual-glow {
+    0% { filter: drop-shadow(0 0 4px var(--amber)); }
+    50% { filter: drop-shadow(0 0 6px var(--tron)); }
+    100% { filter: drop-shadow(0 0 4px var(--amber)); }
+  }
+  .dual-glow {
+    animation: dual-glow 2.8s ease-in-out infinite;
+  }
+
+  /* Boot-up Terminal Animation */
+  @keyframes bootup {
+    0% { opacity: 0; filter: blur(6px); }
+    20% { opacity: 0.4; }
+    40% { opacity: 0.2; }
+    60% { opacity: 0.8; }
+    80% { opacity: 0.6; }
+    100% { opacity: 1; filter: blur(0); }
+  }
+  .bootup {
+    animation: bootup 1.8s ease-out forwards;
+  }
+
+  /* Photo fade-in (delayed to sequence after bootup) */
+  @keyframes fade-in-boot {
+    0% { opacity: 0; transform: translateY(10px); }
+    60% { opacity: 0; }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  .boot-fade {
+    opacity: 0;
+    animation: fade-in-boot 1.8s ease-out forwards;
+    animation-delay: 1.2s;
+  }
+
+  /* "loading..." text fade-out (synced with boot-fade) */
+  @keyframes loading-fade-out {
+    0% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  .loading-text {
+    opacity: 1;
+    animation: loading-fade-out 1.8s ease-out forwards;
+    animation-delay: 1.2s;
+  }
+
+}
