@@ -3,7 +3,6 @@ import { owner, links } from "../config";
 import { ICONS } from "../icons";
 
 export default function Hero() {
-  // Only show social icons if at least one link is configured
   const showGitHub   = !!links.github;
   const showLinkedIn = !!links.linkedin;
   const showSocials  = showGitHub || showLinkedIn;
@@ -11,7 +10,8 @@ export default function Hero() {
   return (
     <section
       className="
-        relative min-h-screen flex flex-col items-center justify-center
+        relative min-h-dvh flex flex-col items-center justify-center
+        px-4 sm:px-6
         crt-curved scanlines scanlines-animated bootup
       "
     >
@@ -51,14 +51,15 @@ export default function Hero() {
       <h1
         className="
           text-[var(--amber)] glow-amber phosphor-bloom
-          text-5xl font-bold
+          text-3xl sm:text-4xl md:text-5xl font-bold
+          text-center
         "
       >
         <Typewriter text={owner.name.toUpperCase()} speed={140} />
       </h1>
 
       {/* SUBTITLE */}
-      <p className="mt-4 text-xl text-[var(--amber)]/90 glow-amber text-center">
+      <p className="mt-4 text-base sm:text-lg md:text-xl text-[var(--amber)]/90 glow-amber text-center">
         {owner.title}
         &nbsp;•&nbsp;
         {owner.tagline}
@@ -68,7 +69,7 @@ export default function Hero() {
       {showSocials && (
         <div
           className="
-            flex gap-8 mt-10 text-4xl
+            flex gap-8 mt-10 text-3xl md:text-4xl
             text-[var(--amber)] glow-amber
           "
         >

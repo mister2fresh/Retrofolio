@@ -28,8 +28,10 @@ html, body, #root {
 
 * { cursor: cell !important; }
 
+/* Prevent horizontal overflow at every level */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -88,10 +90,13 @@ h1, h2, h3 {
     z-index: 2;
   }
 
-  /* Animated Scanlines */
+  /* Animated Scanlines — clipped to container to prevent overflow */
   @keyframes scanline-move {
     0% { transform: translateY(-100%); }
     100% { transform: translateY(100%); }
+  }
+  .scanlines-animated {
+    overflow: hidden;
   }
   .scanlines-animated::after {
     content: "";
@@ -109,7 +114,7 @@ h1, h2, h3 {
     z-index: 3;
   }
 
-  /* VHS Distortion */
+  /* VHS Distortion — opacity-only on mobile to prevent layout shifts */
   @keyframes vhs-distort {
     0% { transform: translateX(0); opacity: 1; }
     20% { transform: translateX(-2px); opacity: 0.9; }
@@ -118,12 +123,16 @@ h1, h2, h3 {
     80% { transform: translateX(1px); opacity: 0.88; }
     100% { transform: translateX(0); opacity: 1; }
   }
+  @keyframes vhs-distort-mobile {
+    0%, 100% { opacity: 1; }
+    40% { opacity: 0.88; }
+    70% { opacity: 0.92; }
+  }
 
-  /* Page-level scanline overlay — covers the full scroll height
-     as a single continuous layer. Applied once on #root so there
-     is no per-section restart seam. */
+  /* Page-level scanline overlay */
   #root {
     position: relative;
+    overflow-x: hidden;
   }
   #root::after {
     content: "";
@@ -136,13 +145,17 @@ h1, h2, h3 {
       transparent 1px,
       transparent 3px
     );
-    animation: vhs-distort 0.25s infinite;
+    animation: vhs-distort-mobile 0.25s infinite;
     pointer-events: none;
     z-index: 100;
   }
+  @media (min-width: 768px) {
+    #root::after {
+      animation: vhs-distort 0.25s infinite;
+    }
+  }
 
-  /* Alternating section tints — gives the eye a rhythm as it
-     scrolls without fighting the dark theme. */
+  /* Alternating section tints */
   .section-tint-a {
     background-color: #0d0a08;
   }
@@ -166,14 +179,23 @@ h1, h2, h3 {
             drop-shadow(0 0 18px var(--crt-glow));
   }
 
-  /* CRT Curved Screen */
+  /* CRT Curved Screen — gentle on mobile, full effect on desktop */
   .crt-curved {
-    border-radius: 20px;
+    border-radius: 12px;
     overflow: hidden;
-    transform: perspective(800px) rotateX(2deg);
+    transform: perspective(1200px) rotateX(1deg);
     box-shadow:
-      inset 0 0 40px var(--crt-glow),
-      0 0 40px var(--crt-glow);
+      inset 0 0 20px var(--crt-glow),
+      0 0 20px var(--crt-glow);
+  }
+  @media (min-width: 768px) {
+    .crt-curved {
+      border-radius: 20px;
+      transform: perspective(800px) rotateX(2deg);
+      box-shadow:
+        inset 0 0 40px var(--crt-glow),
+        0 0 40px var(--crt-glow);
+    }
   }
 
   /* Section Header */
@@ -190,6 +212,9 @@ h1, h2, h3 {
     font-size: 0.9rem;
     user-select: none;
     margin-bottom: 1rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
   }
   .dual-prompt {
     color: var(--tron);
@@ -258,7 +283,7 @@ h1, h2, h3 {
 
   /* Boot-up Terminal Animation */
   @keyframes bootup {
-    0% { opacity: 0; filter: blur(6px); }
+    0% { opacity: 0; filter: blur(4px); }
     20% { opacity: 0.4; }
     40% { opacity: 0.2; }
     60% { opacity: 0.8; }

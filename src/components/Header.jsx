@@ -10,6 +10,7 @@ const NAV_LINKS = [
 
 export default function Header() {
   const [activeSection, setActiveSection] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const sectionIds = NAV_LINKS.map((link) => link.href.slice(1));
@@ -33,7 +34,6 @@ export default function Header() {
     return () => observer.disconnect();
   }, []);
 
-  // Derive a short "username" slug from the config name for the file-path aesthetic
   const slug = owner.name.toLowerCase().replace(/\s+/g, "");
 
   return (
@@ -45,15 +45,28 @@ export default function Header() {
         pointer-events-none
       "
     >
-      <nav className="py-3 px-6 text-[var(--crt-text)] pointer-events-auto w-fit">
+      <nav className="py-3 px-4 sm:px-6 text-[var(--crt-text)] pointer-events-auto w-fit">
 
-        {/* FILE PATH ROOT */}
-        <div className="text-[var(--tron)] mb-1">
-          /home/{slug}/
+        {/* FILE PATH ROOT — tappable on mobile to toggle menu */}
+        <div
+          className="text-[var(--tron)] mb-1 flex items-center gap-2"
+          onClick={() => setMenuOpen((prev) => !prev)}
+        >
+          <span>/home/{slug}/</span>
+          <span className="md:hidden text-xs opacity-60">
+            {menuOpen ? "▾" : "▸"}
+          </span>
         </div>
 
-        {/* DIRECTORY TREE */}
-        <div className="flex flex-col text-sm leading-tight">
+        {/* DIRECTORY TREE — always visible on md+, toggle on mobile */}
+        <div
+          className={`
+            flex flex-col text-sm leading-tight
+            transition-all duration-300 ease-out origin-top
+            ${menuOpen ? "max-h-60 opacity-100" : "max-h-0 opacity-0 overflow-hidden"}
+            md:max-h-none md:opacity-100 md:overflow-visible
+          `}
+        >
           {NAV_LINKS.map((link) => {
             const isActive = activeSection === link.href.slice(1);
 
@@ -61,6 +74,7 @@ export default function Header() {
               <a
                 key={link.href}
                 href={link.href}
+                onClick={() => setMenuOpen(false)}
                 className={`
                   inline w-fit transition-colors duration-200
                   ${isActive
@@ -79,6 +93,7 @@ export default function Header() {
               href={links.resume}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => setMenuOpen(false)}
               className="inline w-fit hover:text-[var(--tron)] transition-colors duration-200"
             >
               └── resume.pdf

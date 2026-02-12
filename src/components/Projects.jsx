@@ -5,26 +5,26 @@ export default function Projects() {
     <section
       id="projects"
       className="
-        min-h-screen flex flex-col items-center justify-center
-        px-8 py-20
+        min-h-dvh flex flex-col items-center justify-center
+        px-4 sm:px-6 md:px-8 py-20
         section-tint-a
       "
     >
       {/* HEADER */}
       <div className="section-header-block w-full max-w-4xl text-center">
-        <h2 className="text-4xl dual-header">Projects</h2>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl dual-header">Projects</h2>
 
-        <div className="dual-divider">
+        <div className="dual-divider" aria-hidden="true">
           ───────────────────────────────────────────────
         </div>
 
-        <div className="dual-prompt">
+        <div className="dual-prompt text-center">
           PROJECTS &gt;<span className="cursor-cyan">█</span>
         </div>
       </div>
 
-      {/* PROJECT CARDS — driven entirely by config */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl w-full">
+      {/* PROJECT CARDS */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 max-w-6xl w-full">
         {projects.map((project) => (
           <a
             key={project.title}
@@ -45,7 +45,7 @@ export default function Projects() {
                 src={project.thumbnail}
                 alt={project.alt}
                 className="
-                  w-full h-40
+                  w-full h-36 sm:h-40
                   object-cover
                   border border-[var(--amber)]/20
                   mb-4
@@ -55,7 +55,7 @@ export default function Projects() {
             ) : (
               <div
                 className="
-                  w-full h-40
+                  w-full h-36 sm:h-40
                   bg-black/40
                   border border-[var(--amber)]/20
                   mb-4
@@ -69,7 +69,7 @@ export default function Projects() {
             )}
 
             {/* TITLE */}
-            <h3 className="text-xl text-[var(--amber)] mb-2">{project.title}</h3>
+            <h3 className="text-lg sm:text-xl text-[var(--amber)] mb-2">{project.title}</h3>
 
             {/* DESCRIPTION */}
             <p className="text-[var(--amber)]/80 text-sm">

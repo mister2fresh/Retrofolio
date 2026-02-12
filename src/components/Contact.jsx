@@ -11,46 +11,52 @@ export default function Contact() {
     <section
       id="contact"
       className="
-        min-h-screen flex flex-col items-center justify-center
-        px-8 py-20
+        min-h-dvh flex flex-col items-center justify-center
+        px-4 sm:px-6 md:px-8 py-20
         section-tint-b
       "
     >
       {/* HEADER */}
       <div className="section-header-block w-full max-w-3xl text-center">
-        <h2 className="text-4xl dual-header">Contact</h2>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl dual-header">Contact</h2>
 
-        <div className="dual-divider">
+        <div className="dual-divider" aria-hidden="true">
           ───────────────────────────────────────────────
         </div>
 
-        <div className="dual-prompt">
+        <div className="dual-prompt text-center">
           CONTACT &gt;<span className="cursor-cyan">█</span>
         </div>
       </div>
 
       {/* TOP ROW — email box + social icons */}
-      <div className="flex flex-col sm:flex-row gap-10 items-start mt-4">
+      <div className="flex flex-col sm:flex-row gap-6 sm:gap-10 items-center sm:items-start mt-4">
 
-        {/* ASCII CONTACT BOX — only shown when email is configured */}
+        {/* EMAIL — simple text on mobile, ASCII box on sm+ */}
         {showEmail && (
-          <pre
-            className="
-              text-sm leading-relaxed
-              whitespace-pre overflow-x-auto
-              text-[var(--crt-text)]
-            "
-          >
-            {[
-              "+--------------------------------------------------+",
-              `|  Email: ${links.email.padEnd(40)}|`,
-              "+--------------------------------------------------+",
-            ].join("\n")}
-          </pre>
+          <>
+            <p className="sm:hidden text-sm font-mono text-[var(--crt-text)]">
+              Email: {links.email}
+            </p>
+            <pre
+              className="
+                hidden sm:block
+                text-sm leading-relaxed
+                whitespace-pre overflow-x-auto
+                text-[var(--crt-text)]
+              "
+            >
+              {[
+                "+--------------------------------------------------+",
+                `|  Email: ${links.email.padEnd(40)}|`,
+                "+--------------------------------------------------+",
+              ].join("\n")}
+            </pre>
+          </>
         )}
 
-        {/* SOCIAL ICON COLUMN */}
-        <div className="flex flex-col gap-6 text-3xl text-[var(--tron)]">
+        {/* SOCIAL ICON COLUMN — row on mobile, column on sm+ */}
+        <div className="flex sm:flex-col gap-6 text-3xl text-[var(--tron)]">
           {showGitHub && (
             <a href={links.github} target="_blank" rel="noopener noreferrer">
               <ICONS.FaGithub className="hover-flicker neon-tron phosphor-bloom" />
@@ -64,7 +70,7 @@ export default function Contact() {
         </div>
       </div>
 
-      {/* CONTACT FORM — only rendered when an endpoint is configured */}
+      {/* CONTACT FORM */}
       {showForm && (
         <form
           action={contactForm.endpoint}

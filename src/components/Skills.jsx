@@ -23,66 +23,88 @@ export default function Skills() {
       id="skills"
       ref={sectionRef}
       className="
-        min-h-screen flex flex-col items-center justify-center
-        px-8 py-20
+        min-h-dvh flex flex-col items-center justify-center
+        px-4 sm:px-6 md:px-8 py-20
         section-tint-b
       "
     >
       {/* HEADER */}
       <div className="section-header-block w-full max-w-4xl text-center">
-        <h2 className="text-4xl dual-header">Skills</h2>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl dual-header">Skills</h2>
 
-        <div className="dual-divider">
+        <div className="dual-divider" aria-hidden="true">
           ───────────────────────────────────────────────
         </div>
 
-        <div className="dual-prompt">
+        <div className="dual-prompt text-center">
           SKILLS &gt;<span className="cursor-cyan">█</span>
         </div>
       </div>
 
-      {/* ASCII FRAME */}
-      <pre className="text-base leading-relaxed mt-2 mb-6 text-[var(--crt-text)]">
+      {/* ASCII FRAME — hidden on mobile, centered on md+ */}
+      <pre
+        className="
+          hidden md:block
+          text-base leading-relaxed
+          mt-2 mb-6
+          mx-auto
+          text-[var(--crt-text)]
+        "
+      >
         {String.raw`+--------------------------------------------------+
 |  Tools, languages, and technologies I use to     |
 |  build systems that feel alive.                  |
 +--------------------------------------------------+`}
       </pre>
 
-      {/* CATEGORIZED GRID — driven entirely by config */}
-      <div className="w-full max-w-4xl mt-4 flex flex-col gap-8">
+      {/* Mobile subtitle */}
+      <p
+        className="
+          md:hidden
+          text-sm text-[var(--crt-text)]/80
+          font-mono text-center
+          mt-2 mb-6
+        "
+      >
+        Tools, languages, and technologies I use to build systems that feel alive.
+      </p>
+
+      {/* CATEGORIZED GRID — centered */}
+      <div className="w-full max-w-4xl mt-4 flex flex-col items-center gap-8">
         {skills.map((category, catIndex) => {
           return (
             <div
               key={category.label}
-              className="transition-all duration-700 ease-out"
+              className="w-full flex flex-col items-center transition-all duration-700 ease-out"
               style={{
                 opacity:    active ? 1 : 0,
                 transform:  active ? "translateY(0)" : "translateY(24px)",
                 transitionDelay: active ? `${catIndex * 120}ms` : "0ms",
               }}
             >
-              {/* Category header */}
-              <div className="flex items-center gap-3 mb-3">
-                <span className="text-[var(--crt-text)] text-xs tracking-widest font-mono opacity-60">
+              {/* Category header — centered with dashes on both sides */}
+              <div className="flex items-center gap-3 mb-3 w-full max-w-lg">
+                <span className="text-[var(--crt-text)] text-xs font-mono opacity-30 flex-1 overflow-hidden text-right">
+                  ──────────────────────────
+                </span>
+                <span className="text-[var(--crt-text)] text-xs tracking-widest font-mono opacity-60 shrink-0">
                   [{category.ascii}]
                 </span>
-                <span className="text-[var(--crt-text)] text-xs font-mono opacity-30 flex-1">
-                  {"─".repeat(60)}
+                <span className="text-[var(--crt-text)] text-xs font-mono opacity-30 flex-1 overflow-hidden">
+                  ──────────────────────────
                 </span>
               </div>
 
-              {/* Icon row */}
-              <div className="flex flex-wrap gap-x-8 gap-y-4 pl-1">
+              {/* Icon row — centered */}
+              <div className="flex flex-wrap justify-center gap-x-6 sm:gap-x-8 gap-y-4">
                 {category.items.map((item, itemIndex) => {
                   const Icon = ICONS[item.icon];
 
-                  // Graceful fallback: if icon name is invalid, show a "?" placeholder
                   if (!Icon) {
                     return (
                       <div key={item.name} className="flex flex-col items-center gap-1.5">
-                        <span className="text-4xl text-[var(--amber)]/40">?</span>
-                        <span className="text-[var(--crt-text)] text-xs font-mono opacity-50 tracking-wider">
+                        <span className="text-3xl sm:text-4xl text-[var(--amber)]/40">?</span>
+                        <span className="text-[var(--crt-text)] text-[10px] sm:text-xs font-mono opacity-50 tracking-wider">
                           {item.name}
                         </span>
                       </div>
@@ -101,13 +123,13 @@ export default function Skills() {
                     >
                       <Icon
                         className="
-                          text-4xl
+                          text-3xl sm:text-4xl
                           !text-[var(--tron)]
                           neon-tron dual-glow hover-flicker
                           cursor-default
                         "
                       />
-                      <span className="text-[var(--crt-text)] text-xs font-mono opacity-50 tracking-wider">
+                      <span className="text-[var(--crt-text)] text-[10px] sm:text-xs font-mono opacity-50 tracking-wider">
                         {item.name}
                       </span>
                     </div>
