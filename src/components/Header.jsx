@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
-import { owner, links } from "../config";
+import { owner, links, skills, projects, contactForm } from "../config";
 
 const NAV_LINKS = [
   { href: "#about",    label: "about/" },
-  { href: "#skills",   label: "skills/" },
-  { href: "#projects", label: "projects/" },
-  { href: "#contact",  label: "contact/" },
+  ...(skills.length > 0   ? [{ href: "#skills",   label: "skills/"   }] : []),
+  ...(projects.length > 0 ? [{ href: "#projects", label: "projects/" }] : []),
+  ...(links.github || links.linkedin || links.email || contactForm.endpoint
+    ? [{ href: "#contact", label: "contact/" }]
+    : []),
 ];
 
 export default function Header() {

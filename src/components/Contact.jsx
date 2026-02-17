@@ -1,11 +1,30 @@
+import { useState } from "react";
 import { links, contactForm } from "../config";
 import { ICONS } from "../icons";
+import SectionHeader from "./SectionHeader";
 
 export default function Contact() {
+  const [status, setStatus] = useState("idle");
+
   const showGitHub   = !!links.github;
   const showLinkedIn = !!links.linkedin;
   const showEmail    = !!links.email;
   const showForm     = !!contactForm.endpoint;
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setStatus("sending");
+    try {
+      const res = await fetch(contactForm.endpoint, {
+        method: "POST",
+        body: new FormData(e.target),
+        headers: { Accept: "application/json" },
+      });
+      setStatus(res.ok ? "sent" : "error");
+    } catch {
+      setStatus("error");
+    }
+  }
 
   return (
     <section
@@ -17,17 +36,7 @@ export default function Contact() {
       "
     >
       {/* HEADER */}
-      <div className="section-header-block w-full max-w-3xl text-center">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl dual-header">Contact</h2>
-
-        <div className="dual-divider" aria-hidden="true">
-          ───────────────────────────────────────────────
-        </div>
-
-        <div className="dual-prompt text-center">
-          CONTACT &gt;<span className="cursor-cyan">█</span>
-        </div>
-      </div>
+      <SectionHeader title="Contact" prompt="CONTACT" maxWidth="max-w-3xl" />
 
       {/* TOP ROW — email box + social icons */}
       <div className="flex flex-col sm:flex-row gap-6 sm:gap-10 items-center sm:items-start mt-4">
@@ -73,8 +82,7 @@ export default function Contact() {
       {/* CONTACT FORM */}
       {showForm && (
         <form
-          action={contactForm.endpoint}
-          method="POST"
+          onSubmit={handleSubmit}
           className="
             w-full max-w-md mt-10
             border border-[var(--tron)]
@@ -150,6 +158,7 @@ export default function Contact() {
           {/* SUBMIT */}
           <button
             type="submit"
+            disabled={status === "sending" || status === "sent"}
             className="
               px-4 py-2
               border border-[var(--tron)]
@@ -158,9 +167,10 @@ export default function Contact() {
               bg-black/40
               font-mono tracking-wide
               transition-colors duration-200
+              disabled:opacity-50 disabled:cursor-not-allowed
             "
           >
-            SEND &gt;
+            {{ idle: "SEND >", sending: "SENDING...", sent: "SENT!", error: "ERROR — RETRY" }[status]}
           </button>
         </form>
       )}

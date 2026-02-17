@@ -1,9 +1,26 @@
+import { useEffect, useRef, useState } from "react";
 import { projects } from "../config";
+import SectionHeader from "./SectionHeader";
 
 export default function Projects() {
+  const sectionRef = useRef(null);
+  const [active, setActive] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) setActive(true);
+      },
+      { threshold: 0.1 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
       id="projects"
+      ref={sectionRef}
       className="
         min-h-dvh flex flex-col items-center justify-center
         px-4 sm:px-6 md:px-8 py-20
@@ -11,21 +28,11 @@ export default function Projects() {
       "
     >
       {/* HEADER */}
-      <div className="section-header-block w-full max-w-4xl text-center">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl dual-header">Projects</h2>
-
-        <div className="dual-divider" aria-hidden="true">
-          ───────────────────────────────────────────────
-        </div>
-
-        <div className="dual-prompt text-center">
-          PROJECTS &gt;<span className="cursor-cyan">█</span>
-        </div>
-      </div>
+      <SectionHeader title="Projects" prompt="PROJECTS" />
 
       {/* PROJECT CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 max-w-6xl w-full">
-        {projects.map((project) => (
+        {projects.map((project, index) => (
           <a
             key={project.id}
             href={project.href}
@@ -38,6 +45,12 @@ export default function Projects() {
               hover:bg-[var(--amber)]/5
               transition-colors duration-200
             "
+            style={{
+              opacity:    active ? 1 : 0,
+              transform:  active ? "translateY(0)" : "translateY(24px)",
+              transition: "opacity 0.6s ease-out, transform 0.6s ease-out",
+              transitionDelay: active ? `${index * 100}ms` : "0ms",
+            }}
           >
             {/* THUMBNAIL or PLACEHOLDER */}
             {project.thumbnail ? (

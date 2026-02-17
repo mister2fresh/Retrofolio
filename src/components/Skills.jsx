@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { skills } from "../config";
 import { ICONS } from "../icons";
+import SectionHeader from "./SectionHeader";
 
 export default function Skills() {
   const sectionRef = useRef(null);
@@ -29,17 +30,7 @@ export default function Skills() {
       "
     >
       {/* HEADER */}
-      <div className="section-header-block w-full max-w-4xl text-center">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl dual-header">Skills</h2>
-
-        <div className="dual-divider" aria-hidden="true">
-          ───────────────────────────────────────────────
-        </div>
-
-        <div className="dual-prompt text-center">
-          SKILLS &gt;<span className="cursor-cyan">█</span>
-        </div>
-      </div>
+      <SectionHeader title="Skills" prompt="SKILLS" />
 
       {/* ASCII FRAME — hidden on mobile, centered on md+ */}
       <pre

@@ -1,4 +1,5 @@
 import { owner } from "../config";
+import SectionHeader from "./SectionHeader";
 
 // Render the ASCII box dynamically so it always stays aligned
 function buildBioBox(lines) {
@@ -50,17 +51,7 @@ export default function About() {
       "
     >
       {/* HEADER */}
-      <div className="section-header-block w-full max-w-4xl text-center">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl dual-header">About Me</h2>
-
-        <div className="dual-divider" aria-hidden="true">
-          ───────────────────────────────────────────────
-        </div>
-
-        <div className="dual-prompt text-center">
-          ABOUT &gt;<span className="cursor-cyan">█</span>
-        </div>
-      </div>
+      <SectionHeader title="About Me" prompt="ABOUT" />
 
       {/* BIO */}
       <div className="w-full max-w-xl mt-4 flex justify-center">

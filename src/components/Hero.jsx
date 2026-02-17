@@ -16,7 +16,7 @@ export default function Hero() {
       "
     >
 
-      {/* LOADING TEXT (fades out) — visible md+ only, shown when photo is set */}
+      {/* LOADING TEXT (fades out) — desktop only */}
       {owner.photoPath && (
         <div
           className="
@@ -30,7 +30,21 @@ export default function Hero() {
         </div>
       )}
 
-      {/* PHOTO (fades in) — visible md+ only, conditional */}
+      {/* PHOTO — mobile: centered above name; desktop: absolute bottom-left */}
+      {owner.photoPath && (
+        <img
+          src={owner.photoPath}
+          alt={`${owner.name} headshot`}
+          className="
+            md:hidden
+            w-24 h-24 rounded-full object-cover
+            border-2 border-[var(--tron)]
+            shadow-[0_0_12px_var(--tron)]
+            no-crt mb-6
+            boot-fade
+          "
+        />
+      )}
       {owner.photoPath && (
         <img
           src={owner.photoPath}
