@@ -14,7 +14,7 @@ export const owner = {
                                 // Set to null to hide the photo entirely.
   bio: [
     // Each string = one line inside the ASCII bio box.
-    // Keep lines under ~50 chars so the box stays aligned.
+    // Keep lines under ~48 chars so the box stays aligned.
     "Replace this with your own bio.",
     "Talk about what you build,",
     "what drives you, and what",
@@ -115,6 +115,7 @@ export const skills = [
  */
 export const projects = [
   {
+    id: "project-1",            // unique identifier — used as React key, change freely
     href: "https://your-project-link.com",
     thumbnail: null,            // e.g. "./assets/project1.png"  (relative to src/)
     alt: "Project 1 Thumbnail",
@@ -123,6 +124,7 @@ export const projects = [
     tags: ["React", "Node.js", "PostgreSQL"],
   },
   {
+    id: "project-2",
     href: "https://your-project-link.com",
     thumbnail: null,
     alt: "Project 2 Thumbnail",
@@ -131,6 +133,7 @@ export const projects = [
     tags: ["Python", "AWS", "Docker"],
   },
   {
+    id: "project-3",
     href: "https://your-project-link.com",
     thumbnail: null,
     alt: "Project 3 Thumbnail",

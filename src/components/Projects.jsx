@@ -27,7 +27,7 @@ export default function Projects() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 max-w-6xl w-full">
         {projects.map((project) => (
           <a
-            key={project.title}
+            key={project.id}
             href={project.href}
             target="_blank"
             rel="noopener noreferrer"

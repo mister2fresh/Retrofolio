@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { owner } from "./config";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -7,6 +9,10 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
 export default function App() {
+  useEffect(() => {
+    document.title = `${owner.name} | Portfolio`;
+  }, []);
+
   return (
     <main className="min-h-screen w-full">
       <Header />

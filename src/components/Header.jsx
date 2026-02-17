@@ -34,7 +34,7 @@ export default function Header() {
     return () => observer.disconnect();
   }, []);
 
-  const slug = owner.name.toLowerCase().replace(/\s+/g, "");
+  const slug = owner.name.toLowerCase().replace(/\s+/g, "").replace(/[^a-z0-9]/g, "");
 
   return (
     <header

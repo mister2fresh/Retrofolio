@@ -68,3 +68,6 @@ coverage/
 
 # Vite cache
 .vite/
+
+# Claude Code project instructions (local only)
+CLAUDE.md

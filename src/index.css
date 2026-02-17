@@ -26,7 +26,9 @@ html, body, #root {
   padding: 0;
 }
 
-* { cursor: cell !important; }
+* { cursor: cell; }
+a, button, [role="button"] { cursor: pointer; }
+input, textarea, select { cursor: text; }
 
 /* Prevent horizontal overflow at every level */
 html {
@@ -145,13 +147,13 @@ h1, h2, h3 {
       transparent 1px,
       transparent 3px
     );
-    animation: vhs-distort-mobile 0.25s infinite;
+    animation: vhs-distort-mobile 8s infinite;
     pointer-events: none;
     z-index: 100;
   }
   @media (min-width: 768px) {
     #root::after {
-      animation: vhs-distort 0.25s infinite;
+      animation: vhs-distort 8s infinite;
     }
   }
 
@@ -277,7 +279,7 @@ h1, h2, h3 {
     50% { filter: drop-shadow(0 0 6px var(--tron)); }
     100% { filter: drop-shadow(0 0 4px var(--amber)); }
   }
-  .dual-glow {
+  .dual-glow:hover {
     animation: dual-glow 2.8s ease-in-out infinite;
   }
 
@@ -292,6 +294,15 @@ h1, h2, h3 {
   }
   .bootup {
     animation: bootup 1.8s ease-out forwards;
+  }
+
+  /* Respect reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 
   /* Photo fade-in (delayed to sequence after bootup) */
