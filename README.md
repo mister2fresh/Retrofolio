@@ -105,11 +105,20 @@ export const contactForm = {
 
 ## Deployment
 
+### GitHub Pages (automatic)
+
+This repo includes a GitHub Actions workflow that builds and deploys on every push to `main`.
+
+1. Go to your repo on GitHub → **Settings → Pages**
+2. Under **Source**, select **GitHub Actions**
+3. Push any commit — the site will be live at `https://<username>.github.io/<repo-name>/`
+
+### Other platforms
+
 | Platform | Notes |
 |---|---|
 | Vercel | `vercel deploy` — works out of the box |
 | Netlify | Build: `npm run build`, publish: `dist` |
-| GitHub Pages | Set `base` in `vite.config.js` to your repo name |
 
 ---
 
@@ -124,14 +133,15 @@ src/
 ├── index.css          # CRT theme
 ├── assets/
 └── components/
-    ├── Header.jsx     # sticky directory-tree nav
-    ├── Hero.jsx       # name, tagline, photo, socials
-    ├── About.jsx      # ASCII bio box
-    ├── Skills.jsx     # icon grid with scroll reveal
-    ├── Projects.jsx   # project cards
-    ├── Contact.jsx    # email, socials, form
-    ├── Footer.jsx     # credits
-    └── Typewriter.jsx # typewriter text effect
+    ├── Header.jsx        # sticky directory-tree nav
+    ├── Hero.jsx          # name, tagline, photo, socials
+    ├── About.jsx         # ASCII bio box
+    ├── Skills.jsx        # icon grid with scroll reveal
+    ├── Projects.jsx      # project cards with scroll reveal
+    ├── Contact.jsx       # email, socials, AJAX form
+    ├── Footer.jsx        # credits
+    ├── SectionHeader.jsx # shared section title/divider/prompt
+    └── Typewriter.jsx    # typewriter text effect
 ```
 
 ---
