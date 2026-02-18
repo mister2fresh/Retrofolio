@@ -115,10 +115,10 @@ export default function Skills() {
                       <Icon
                         className="
                           text-3xl sm:text-4xl
-                          !text-[var(--tron)]
                           neon-tron dual-glow hover-flicker
                           cursor-default
                         "
+                        style={{ color: "var(--tron)" }}
                       />
                       <span className="text-[var(--crt-text)] text-[10px] sm:text-xs font-mono opacity-50 tracking-wider">
                         {item.name}
